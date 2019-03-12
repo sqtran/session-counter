@@ -11,14 +11,16 @@ package org.jboss.example.counter;
 
 import java.io.IOException;
 import java.io.Serializable;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author  Stan Silvert
  */
 public class Counter implements Serializable {
-    public static final Logger LOG = Logger.getLogger(Counter.class);
+    public static final Logger LOG = LogManager.getLogger(Counter.class);
     
     private int counter = 0;
     

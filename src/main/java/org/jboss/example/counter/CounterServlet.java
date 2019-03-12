@@ -9,20 +9,25 @@
 
 package org.jboss.example.counter;
 
-import java.io.*;
-import java.net.*;
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.log4j.Logger;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author  Stan Silvert
  */
 public class CounterServlet extends HttpServlet {
-    public static final Logger LOG = Logger.getLogger(CounterServlet.class);
+    public static final Logger LOG = LogManager.getLogger(CounterServlet.class);
     
     private String titleMessage = "Counter Servlet";
     
