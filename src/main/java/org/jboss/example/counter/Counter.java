@@ -20,7 +20,12 @@ import org.apache.logging.log4j.Logger;
  * @author  Stan Silvert
  */
 public class Counter implements Serializable {
-    public static final Logger LOG = LogManager.getLogger(Counter.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2048179441974728538L;
+
+	public static final Logger LOG = LogManager.getLogger(Counter.class);
     
     private int counter = 0;
     
@@ -54,7 +59,7 @@ public class Counter implements Serializable {
         in.defaultReadObject();
         
         LOG.info("****************************");
-        LOG.info("I've been desrialized!!!");
+        LOG.info("I've been deserialized!!!");
         LOG.info("Counter = " + counter);
         LOG.info("****************************");
         

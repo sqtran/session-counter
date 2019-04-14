@@ -11,6 +11,7 @@ package org.jboss.example.counter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -27,7 +28,12 @@ import org.apache.logging.log4j.Logger;
  * @author  Stan Silvert
  */
 public class CounterServlet extends HttpServlet {
-    public static final Logger LOG = LogManager.getLogger(CounterServlet.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 111431634144405770L;
+
+	public static final Logger LOG = LogManager.getLogger(CounterServlet.class);
     
     private String titleMessage = "Counter Servlet";
     
@@ -51,7 +57,7 @@ public class CounterServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html");
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         
         PrintWriter out = response.getWriter();
         
@@ -65,6 +71,8 @@ public class CounterServlet extends HttpServlet {
         out.println(this.titleMessage);
         out.println("</font><br><br>");
         
+
+        
         Counter counter = getSessionObj(session);
         counter.increment();
         
@@ -73,9 +81,34 @@ public class CounterServlet extends HttpServlet {
         LOG.info("sessionID = " + request.getSession().getId());
         LOG.info("*****************");
   
-        out.println("Counter = " + counter.getValue());
+        out.println("Request URL = " + request.getRequestURL());   
+        out.println("<br>Request URI = " + request.getRequestURI());
+        out.println("<br>Server Name = " + request.getServerName());
+        out.println("<br>Local Addr = " + request.getLocalAddr());
+        out.println("<br>Remote Port =  " + request.getRemotePort());
+        out.println("<br>Local Port =  " + request.getLocalPort());
+        out.println("<br>Server Port =  " + request.getServerPort());
+        out.println("<br>sessionID = " + request.getSession().getId());
+
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        out.println("<br>Inet IP Address = " + inetAddress.getHostAddress());
+        out.println("<br>Inet Host Name =  " + inetAddress.getHostName());
+
+        out.println("<br>Jboss Server Name = " + System.getProperty( "jboss.server.name" ));
+        
+        
+        out.println("<br>Counter = " + counter.getValue());
+        
+        out.println("<br><br>Sample Curl <br><br>" + "curl -v " + request.getRequestURL() + " --header \"Cookie: JSESSIONID=" + request.getSession().getId() + '"');
+
         out.println("</body>");
         out.println("</html>");
+        
+
+        
+        // do i need to write this to preserve the session?
+        session.setAttribute("foo", counter);
+
         out.close();
     }
     
